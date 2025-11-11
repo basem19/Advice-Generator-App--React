@@ -1,74 +1,145 @@
-# React + TypeScript + Vite
+# 🎯 Advice Generator App — React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean and responsive **Advice Generator** application built using **React**, **TypeScript**, and **CSS Modules**.  
+The app fetches random advice from the official *Advice Slip API* and displays it with smooth UI interactions.
 
-Currently, two official plugins are available:
+Inspired by the original challenge on **Frontend Mentor**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✅ Fetches random advice using **Advice Slip API**  
+✅ Fully responsive (mobile + desktop)  
+✅ Clean UI with modern look  
+✅ Smooth button glow animation  
+✅ Fast and lightweight (no Tailwind, no axios)  
+✅ Uses **React Query** for stable data fetching  
+✅ CSS Modules for isolated component styling  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React + TypeScript**
+- **Vite**
+- **React Query**
+- **CSS Modules**
+- **Advice Slip API** → https://api.adviceslip.com/advice
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📁 Project Structure
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+src/
+│── assets/
+│   ├── icon-dice.svg
+│   ├── pattern-divider-desktop.svg
+│   └── pattern-divider-mobile.svg
+│
+│── components/
+│   └── advice/
+│       ├── AdviceCard.tsx
+│       ├── AdviceCard.module.css
+│       ├── Divider.tsx
+│
+│── hooks/
+│   └── useAdvice.ts
+│
+│── services/
+│   └── adviceApi.ts
+│
+│── types/
+│   └── adviceTypes.ts
+│
+│── App.tsx
+│── main.tsx
+│── index.css
+│
+└── README.md
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+````
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
+---
+
+## ⚙️ Installation & Setup
+
+1️⃣ Clone the repository  
+```sh
+git clone https://github.com/yourname/Advice-Generator-App-React.git
+````
+
+2️⃣ Install dependencies
+
+```sh
+npm install
+```
+
+3️⃣ Run development server
+
+```sh
+npm run dev
+```
+
+4️⃣ Build for production
+
+```sh
+npm run build
+```
+
+---
+
+## 🌐 API Details
+
+All advice is fetched from:
+
+```
+https://api.adviceslip.com/advice
+```
+
+Because this API **does not support CORS**, a Vite proxy is used to bypass the CORS restriction:
+
+**vite.config.ts**
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://api.adviceslip.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        secure: false,
+        configure: (proxy, options) => {
+          proxy.on("proxyReq", (proxyReq, req, res) => {
+            proxyReq.setHeader("Connection", "keep-alive");
+          });
+        },
       },
-      // other options...
     },
   },
-])
+});
+
 ```
+
+---
+
+## ✅ Live Demo
+
+🔗 **Add your deployed link here**
+https://advice-generator-app-orpin-five.vercel.app/
+
+---
+## 👨‍💻 Author
+Basem Saeed
+Frontend Developer
+
+LinkedIn: [https://www.linkedin.com/in/your-profile](https://www.linkedin.com/in/your-profile)
+
 # Advice-Generator-App--React
